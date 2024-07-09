@@ -10,14 +10,18 @@ import os
 from random import randrange
 import datetime
 
-from const import VERSION, SLEEP_INTERVAL, IS_CONTAINER, NAMES, COLUMNS, UNIT_OF_MEASUREMENT, DEVICE_CLASS
+from const import VERSION, SLEEP_INTERVAL, IS_CONTAINER
 if (IS_CONTAINER):
     CONST_MQTT_HOST=os.getenv("MQTT_HOST","192.168.49.80")
-    CONST_MQTT_PASSWORD=os.getenv("MQTT_PASSWORD","nvr")
+    CONST_MQTT_PASSWORD=os.getenv("MQTT_PASSWORD","")
     CONST_MQTT_USERNAME=os.getenv("MQTT_USERNAME","frigate")
     CONST_SLEEP_INTERVAL=os.getenv("SLEEP_INTERVAL",SLEEP_INTERVAL)
-    CONST_GOOGLE_API_KEY=os.getenv("GOOGLE_API_KEY","AIzaSyCrHqwbt8hAxuTXFcPlb6mt0nGljXA7NDs")
-    CONST_GOOGLE_SPREADSHEET_ID=os.getenv("GOOGLE_SPREADSHEET_ID","1z4TW2HLZrD3obstC3ICqzxOPAZXwZzeoo7jsix9PWEo")
+    CONST_GOOGLE_API_KEY=os.getenv("GOOGLE_API_KEY","")
+    CONST_GOOGLE_SPREADSHEET_ID=os.getenv("GOOGLE_SPREADSHEET_ID","")
+    NAMES=os.getenv("NAMES","")
+    DEVICE_CLASS=os.getenv("DEVICE_CLASS","")
+    UNIT_OF_MEASUREMENT=os.getenv("UNIT_OF_MEASUREMENT","")
+    COLUMNS=os.getenv("COLUMNS","")
 
 def replace_periods(sensor_name):
     return re.sub(r'\W', '_', sensor_name.lower() )
