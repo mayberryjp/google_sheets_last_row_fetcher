@@ -26,6 +26,19 @@ if (IS_CONTAINER):
 def replace_periods(sensor_name):
     return re.sub(r'\W', '_', sensor_name.lower() )
 
+def on_publish(client, userdata, mid):
+    print("Message published.")
+
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print("Connected successfully.")
+    else:
+        print("Connection failed with error code " + str(rc))
+
+def on_disconnect(client, userdata, rc):
+    if rc != 0:
+        print("Unexpected disconnection.")
+
 class GoogleSheetsLastRowSensor:
     def __init__(self, name, device_class, unit_of_measurement):
         name_replace=replace_periods(name)
@@ -59,8 +72,15 @@ def initialize():
     logger.info(f"Initialization starting...")
     print("Initialization starting...")
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    client.on_publish = on_publish
+    client.on_connect = on_connect
+    client.on_disconnect = on_disconnect
     client.username_pw_set(CONST_MQTT_USERNAME,CONST_MQTT_PASSWORD)
-    client.connect(CONST_MQTT_HOST, 1883)
+
+    try:
+      client.connect(CONST_MQTT_HOST, 1883)
+    except Exception as e:
+        print("Error connecting to MQTT Broker: " + str(e))
 
     for sensor in NAMES.split(','):
         google_sheets_sensor=GoogleSheetsLastRowSensor(sensor,DEVICE_CLASS_LIST[count],UNIT_OF_MEASUREMENT_LIST[count])
@@ -69,10 +89,22 @@ def initialize():
         print(f"Sending sensor -> {serialized_message}")
         logger.info(f"Sending sensor -> {serialized_message}")
         print(f"entity: homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config")
-        client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config", payload=serialized_message, qos=0, retain=True)
+    
+        try:
+            ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config", payload=serialized_message, qos=0, retain=True)
+            if ret == mqtt.MQTT_ERR_SUCCESS:
+                print("Message queued successfully.")
+            else:
+                print("Failed to queue message with error code " + str(ret))
+        except Exception as e:
+            print("Error publishing message: " + str(e))
         count = count + 1
         
-    client.disconnect()
+    try:
+        client.disconnect()
+    except Exception as e:
+        print("Error disconnecting from MQTT Broker: " + str(e))
+
     logger.info(f"Initialization complete...")
     print("Initialization complete...")
 
