@@ -157,8 +157,16 @@ if __name__ == '__main__':
             name_replace=replace_periods(sensor)
             value = get_spreadsheet_values(COLUMNS_LIST[count])
             print(f"{sensor} -> {value[0]} {DEVICE_CLASS_LIST[count]} {UNIT_OF_MEASUREMENT_LIST[count]}")
-            ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{name_replace.lower()}/state", payload=value[0], qos=0, retain=False) 
-            
+
+            try:
+                ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{name_replace.lower()}/state", payload=value[0], qos=0, retain=False) 
+                if ret.rc == mqtt.MQTT_ERR_SUCCESS:
+                    pass
+                else:
+                    print("Failed to queue message with error code " + str(ret))
+            except Exception as e:
+                print("Error publishing message: " + str(e))
+
             count = count + 1
 
         try:
