@@ -68,9 +68,14 @@ def initialize():
     count = 0
     DEVICE_CLASS_LIST=DEVICE_CLASS.split(',')
     UNIT_OF_MEASUREMENT_LIST=UNIT_OF_MEASUREMENT.split(',')
+    NAMES_LIST=NAMES.split(',')
+    COLUMNS_LIST=COLUMNS.split(',')
+
     logger = logging.getLogger(__name__)
     logger.info(f"Initialization starting...")
     print("Initialization starting...")
+    logger.info(f"Lengths DEVICE_CLASS={len(DEVICE_CLASS_LIST)} NAMES={len(NAMES_LIST)} COLUMNS={len(COLUMNS_LIST)} UNITS_OF_MEASUREMENT={len(UNIT_OF_MEASUREMENT_LIST)}")
+    print(f"Lengths DEVICE_CLASS={len(DEVICE_CLASS_LIST)} NAMES={len(NAMES_LIST)} COLUMNS={len(COLUMNS_LIST)} UNITS_OF_MEASUREMENT={len(UNIT_OF_MEASUREMENT_LIST)}")
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.on_publish = on_publish
     client.on_connect = on_connect
@@ -82,7 +87,7 @@ def initialize():
     except Exception as e:
         print("Error connecting to MQTT Broker: " + str(e))
 
-    for sensor in NAMES.split(','):
+    for sensor in NAMES_LIST:
         google_sheets_sensor=GoogleSheetsLastRowSensor(sensor,DEVICE_CLASS_LIST[count],UNIT_OF_MEASUREMENT_LIST[count])
         # Convert dictionary to JSON string
         serialized_message = json.dumps(google_sheets_sensor.to_json())
