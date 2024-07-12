@@ -26,7 +26,7 @@ if (IS_CONTAINER):
 def replace_periods(sensor_name):
     return re.sub(r'\W', '_', sensor_name.lower() )
 
-def on_publish(client, userdata, mid):
+def on_publish(client, userdata, mid, reason_code, properties):
     print("Message published.")
 
 def on_connect(client, userdata, flags, rc):
