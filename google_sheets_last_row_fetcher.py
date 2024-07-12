@@ -35,7 +35,7 @@ def on_connect(client, userdata, flags, rc):
     else:
         print("Connection failed with error code " + str(rc))
 
-def on_disconnect(client, userdata, rc):
+def on_disconnect(client, userdata, disconnect_flags, rc,properties):
     if rc != 0:
         print("Unexpected disconnection.")
 
@@ -98,7 +98,7 @@ def initialize():
         try:
             ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config", payload=serialized_message, qos=0, retain=True)
             if ret.rc == mqtt.MQTT_ERR_SUCCESS:
-                print("Message queued successfully.")
+                pass
             else:
                 print("Failed to queue message with error code " + str(ret))
         except Exception as e:
