@@ -145,13 +145,16 @@ if __name__ == '__main__':
     NAMES_LIST=NAMES.split(',')
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.username_pw_set(CONST_MQTT_USERNAME,CONST_MQTT_PASSWORD)
+    client.on_publish = on_publish
+    client.on_connect = on_connect
+    client.on_disconnect = on_disconnect
 
-    
     while True:
         try:
             client.connect(CONST_MQTT_HOST, 1883)
         except Exception as e:
             print("Error connecting to MQTT Broker: " + str(e))
+
         count = 0
         for sensor in NAMES_LIST:
             name_replace=replace_periods(sensor)
