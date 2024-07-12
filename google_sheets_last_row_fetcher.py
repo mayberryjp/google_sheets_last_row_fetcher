@@ -26,8 +26,8 @@ if (IS_CONTAINER):
 def replace_periods(sensor_name):
     return re.sub(r'\W', '_', sensor_name.lower() )
 
-def on_publish(client, userdata, mid, reason_code, properties):
-    print("Message published.")
+def on_publish(client, userdata, mid, reason_code, properties): 
+    pass
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -97,7 +97,7 @@ def initialize():
     
         try:
             ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config", payload=serialized_message, qos=0, retain=True)
-            if ret == mqtt.MQTT_ERR_SUCCESS:
+            if ret.rc == mqtt.MQTT_ERR_SUCCESS:
                 print("Message queued successfully.")
             else:
                 print("Failed to queue message with error code " + str(ret))
@@ -142,19 +142,29 @@ if __name__ == '__main__':
     COLUMNS_LIST=COLUMNS.split(',')
     DEVICE_CLASS_LIST=DEVICE_CLASS.split(',')
     UNIT_OF_MEASUREMENT_LIST=UNIT_OF_MEASUREMENT.split(',')
+    NAMES_LIST=NAMES.split(',')
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.username_pw_set(CONST_MQTT_USERNAME,CONST_MQTT_PASSWORD)
-    logger = logging.getLogger(__name__)
+
+    
     while True:
+        try:
+            client.connect(CONST_MQTT_HOST, 1883)
+        except Exception as e:
+            print("Error connecting to MQTT Broker: " + str(e))
         count = 0
-        for sensor in NAMES.split(','):
+        for sensor in NAMES_LIST:
             name_replace=replace_periods(sensor)
             value = get_spreadsheet_values(COLUMNS_LIST[count])
             print(f"{sensor} -> {value[0]} {DEVICE_CLASS_LIST[count]} {UNIT_OF_MEASUREMENT_LIST[count]}")
-            client.connect(CONST_MQTT_HOST, 1883)
-            client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{name_replace.lower()}/state", payload=value[0], qos=0, retain=False)    
-            client.disconnect()
+            ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{name_replace.lower()}/state", payload=value[0], qos=0, retain=False) 
+            
             count = count + 1
+
+        try:
+            client.disconnect()
+        except Exception as e:
+            print("Error disconnecting from MQTT Broker: " + str(e))
 
         logger.info(f"It is {datetime.datetime.now()} .. I am sleeping for {CONST_SLEEP_INTERVAL}")
         print(f"It is {datetime.datetime.now()} ... I am sleeping for {CONST_SLEEP_INTERVAL}")
