@@ -26,18 +26,6 @@ if (IS_CONTAINER):
 def replace_periods(sensor_name):
     return re.sub(r'\W', '_', sensor_name.lower() )
 
-def on_publish(client, userdata, mid, reason_code, properties): 
-    pass
-
-def on_connect(client, userdata, flags, rc):
-    if rc == 0:
-        print("Connected successfully.")
-    else:
-        print("Connection failed with error code " + str(rc))
-
-def on_disconnect(client, userdata, disconnect_flags, rc,properties):
-    if rc != 0:
-        print("Unexpected disconnection.")
 
 class GoogleSheetsLastRowSensor:
     def __init__(self, name, device_class, unit_of_measurement):
@@ -77,15 +65,15 @@ def initialize():
     logger.info(f"Lengths DEVICE_CLASS={len(DEVICE_CLASS_LIST)} NAMES={len(NAMES_LIST)} COLUMNS={len(COLUMNS_LIST)} UNITS_OF_MEASUREMENT={len(UNIT_OF_MEASUREMENT_LIST)}")
     print(f"Lengths DEVICE_CLASS={len(DEVICE_CLASS_LIST)} NAMES={len(NAMES_LIST)} COLUMNS={len(COLUMNS_LIST)} UNITS_OF_MEASUREMENT={len(UNIT_OF_MEASUREMENT_LIST)}")
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-    client.on_publish = on_publish
-    client.on_connect = on_connect
-    client.on_disconnect = on_disconnect
+
     client.username_pw_set(CONST_MQTT_USERNAME,CONST_MQTT_PASSWORD)
 
     try:
       client.connect(CONST_MQTT_HOST, 1883)
     except Exception as e:
         print("Error connecting to MQTT Broker: " + str(e))
+
+    client.loop_start()
 
     for sensor in NAMES_LIST:
         google_sheets_sensor=GoogleSheetsLastRowSensor(sensor,DEVICE_CLASS_LIST[count],UNIT_OF_MEASUREMENT_LIST[count])
@@ -96,7 +84,8 @@ def initialize():
         print(f"entity: homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config")
     
         try:
-            ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config", payload=serialized_message, qos=0, retain=True)
+            ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config", payload=serialized_message, qos=2, retain=True)
+            ret.wait_for_publish()
             if ret.rc == mqtt.MQTT_ERR_SUCCESS:
                 pass
             else:
@@ -105,6 +94,7 @@ def initialize():
             print("Error publishing message: " + str(e))
         count = count + 1
         
+    client.loop_start()
     try:
         client.disconnect()
     except Exception as e:
@@ -145,9 +135,7 @@ if __name__ == '__main__':
     NAMES_LIST=NAMES.split(',')
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.username_pw_set(CONST_MQTT_USERNAME,CONST_MQTT_PASSWORD)
-    client.on_publish = on_publish
-    client.on_connect = on_connect
-    client.on_disconnect = on_disconnect
+    client.loop_start()
 
     while True:
         try:
@@ -162,7 +150,8 @@ if __name__ == '__main__':
             print(f"{sensor} -> {value[0]} {DEVICE_CLASS_LIST[count]} {UNIT_OF_MEASUREMENT_LIST[count]}")
 
             try:
-                ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{name_replace.lower()}/state", payload=value[0], qos=0, retain=False) 
+                ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{name_replace.lower()}/state", payload=value[0], qos=2, retain=False) 
+                ret.wait_for_publish()
                 if ret.rc == mqtt.MQTT_ERR_SUCCESS:
                     pass
                 else:
@@ -172,6 +161,7 @@ if __name__ == '__main__':
 
             count = count + 1
 
+        client.loop_stop()
         try:
             client.disconnect()
         except Exception as e:
