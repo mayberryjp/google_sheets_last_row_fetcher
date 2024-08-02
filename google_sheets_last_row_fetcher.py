@@ -121,7 +121,7 @@ def get_spreadsheet_values(column_name):
             return values[-1]
     except requests.exceptions.HTTPError as err:
         print(err)
-        return str(err)
+        return None
 
 # Example usage:
 if __name__ == '__main__':
@@ -155,6 +155,10 @@ if __name__ == '__main__':
         for sensor in NAMES_LIST:
             name_replace=replace_periods(sensor)
             value = get_spreadsheet_values(COLUMNS_LIST[count])
+            if value == None:
+                print(f"No sensor value found for {sensor}, so skipping")
+                continue
+
             print(f"{sensor} -> {value[0]} {DEVICE_CLASS_LIST[count]} {UNIT_OF_MEASUREMENT_LIST[count]}")
 
             try:
