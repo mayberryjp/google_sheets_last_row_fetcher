@@ -3,7 +3,7 @@ services:
   google_sheets_last_row_fetcher:
     container_name: google_sheets_last_row_fetcher
     restart: "unless-stopped"
-    image: google_sheets_last_row_fetcher:v1.0.15
+    image: google_sheets_last_row_fetcher:v1.0.16
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
