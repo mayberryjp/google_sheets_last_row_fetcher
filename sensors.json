@@ -4,180 +4,270 @@
         "SensorName": "HouseGridReturnGeneration",
         "SensorColumn": "Bill%20history!B2:B",
         "DeviceClass": "energy",
-        "UnitOfMeasurement": "kWh"
+        "UnitOfMeasurement": "kWh",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "DirectDeposit",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseGridReturnIncome",
         "SensorColumn": "Bill%20history!C2:C",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "DirectDeposit",
+        "Notes": ""
     },
     { 
         "SensorName": "OfficeWaterCost",
         "SensorColumn": "Bill%20history!D2:D",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "EveryTwoMonths",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "DocomoCellPhone",
         "SensorColumn": "Bill%20history!E2:E",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "DirectDebitCreditCard",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseNTTFiberCost",
         "SensorColumn": "Bill%20history!F2:F",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "PaperBill",
+        "PaymentMethod": "DirectDeposit",
+        "Notes": ""
     },
     { 
         "SensorName": "OfficeWaterUsage",
         "SensorColumn": "Bill%20history!G2:G",
         "DeviceClass": "water",
-        "UnitOfMeasurement": "m³"
+        "UnitOfMeasurement": "m³",
+        "Periodicity": "EveryTwoMonths",
+        "PaymentMethod": "DirectDeposit",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseGasCost",
         "SensorColumn": "Bill%20history!H2:H",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseGasUsage",
         "SensorColumn": "Bill%20history!I2:I",
         "DeviceClass": "gas",
-        "UnitOfMeasurement": "m³"
+        "UnitOfMeasurement": "m³",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseWaterCost",
         "SensorColumn": "Bill%20history!J2:J",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "EveryTwoMonths",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseWaterUsage",
         "SensorColumn": "Bill%20history!K2:K",
         "DeviceClass": "water",
-        "UnitOfMeasurement": "m³"
+        "UnitOfMeasurement": "m³",
+        "Periodicity": "EveryTwoMonths",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseElectricCost",
         "SensorColumn": "Bill%20history!L2:L",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseElectricUsage",
         "SensorColumn": "Bill%20history!M2:M",
         "DeviceClass": "energy",
-        "UnitOfMeasurement": "kWh"
+        "UnitOfMeasurement": "kWh",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "DirectDeposit",
+        "Notes": ""
     },
     { 
         "SensorName": "ToyotaGasCost",
         "SensorColumn": "Bill%20history!N2:N",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Random",
+        "PaymentMethod": "CreditCard",
+        "Notes": ""
     },
     { 
         "SensorName": "ToyotaMileage",
         "SensorColumn": "Bill%20history!O2:O",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Random",
+        "PaymentMethod": "NotApplicable",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseSewerMaintenance",
         "SensorColumn": "Bill%20history!P2:P",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Random",
+        "PaymentMethod": "BankTransfer",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseBuildingAndLandTax",
         "SensorColumn": "Bill%20history!Q2:Q",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "PersonalIncomeTax",
         "SensorColumn": "Bill%20history!R2:R",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "BBExciteInternetFee",
         "SensorColumn": "Bill%20history!S2:S",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "DirectDebitCreditCard",
+        "Notes": ""
     },
     { 
         "SensorName": "HiaceCarInspectionCost",
         "SensorColumn": "Bill%20history!T2:T",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "Cash",
+        "Notes": ""
     },
     { 
         "SensorName": "FarmLandTax",
         "SensorColumn": "Bill%20history!U2:U",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "FarmElectricCost",
         "SensorColumn": "Bill%20history!V2:V",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "PaperBill",
+        "Notes": "Thao"
     },
     { 
         "SensorName": "FarmElectricUsage",
         "SensorColumn": "Bill%20history!W2:W",
         "DeviceClass": "energy",
-        "UnitOfMeasurement": "kWh"
+        "UnitOfMeasurement": "kWh",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "PaperBill",
+        "Notes": "Thao"
     },
     { 
         "SensorName": "KeiTruckCarInsuranceCost",
         "SensorColumn": "Bill%20history!X2:X",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "HiaceCarInsuranceCost",
         "SensorColumn": "Bill%20history!Y2:Y",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "DirectDeposit",
+        "Notes": ""
     },
     { 
         "SensorName": "KeiTruckInspectionCost",
         "SensorColumn": "Bill%20history!Z2:Z",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "OfficeHomeInsurance",
         "SensorColumn": "Bill%20history!AA2:AA",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "HouseHomeInsurance",
         "SensorColumn": "Bill%20history!AB2:AB",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "OfficeElectricUsage",
         "SensorColumn": "Bill%20history!AC2:AC",
         "DeviceClass": "energy",
-        "UnitOfMeasurement": "kWh"
+        "UnitOfMeasurement": "kWh",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     },
     { 
         "SensorName": "OfficeElectricCost",
         "SensorColumn": "Bill%20history!AD2:AD",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Monthly",
+        "PaymentMethod": "PaperBillr",
+        "Notes": ""
     },
     { 
         "SensorName": "OfficeBuildingAndLandTax",
         "SensorColumn": "Bill%20history!AE2:AE",
         "DeviceClass": "monetary",
-        "UnitOfMeasurement": "JPY"
+        "UnitOfMeasurement": "JPY",
+        "Periodicity": "Yearly",
+        "PaymentMethod": "PaperBill",
+        "Notes": ""
     }
 ]
