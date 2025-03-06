@@ -18,18 +18,15 @@ if (IS_CONTAINER):
     CONST_SLEEP_INTERVAL=os.getenv("SLEEP_INTERVAL",SLEEP_INTERVAL)
     CONST_GOOGLE_API_KEY=os.getenv("GOOGLE_API_KEY","")
     CONST_GOOGLE_SPREADSHEET_ID=os.getenv("GOOGLE_SPREADSHEET_ID","")
-    NAMES=os.getenv("NAMES","")
-    DEVICE_CLASS=os.getenv("DEVICE_CLASS","")
-    UNIT_OF_MEASUREMENT=os.getenv("UNIT_OF_MEASUREMENT","")
-    COLUMNS=os.getenv("COLUMNS","")
+
 
 def replace_periods(sensor_name):
-    return re.sub(r'\W', '_', sensor_name.lower() )
+    return re.sub(r'\W', '_', sensor_name.lower())
 
 
 class GoogleSheetsLastRowSensor:
     def __init__(self, name, device_class, unit_of_measurement):
-        name_replace=replace_periods(name)
+        name_replace = replace_periods(name)
         self.name = f"googlesheetslastrowfetcher_{name_replace}"
         self.device_class = device_class
         self.unit_of_measurement = unit_of_measurement
@@ -45,53 +42,63 @@ class GoogleSheetsLastRowSensor:
             "name": self.name,
             "device_class": self.device_class,
             "unit_of_measurement": self.unit_of_measurement,
-            "device_class": self.device_class,
             "state_topic": self.state_topic,
             "unique_id": self.unique_id,
             "device": self.device
         }
+    
+
+def load_sensors_from_json(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return json.load(file)
+    except Exception as e:
+        print(f"Error loading JSON file: {e}")
+        return []
 
 
-def initialize():
+def initialize(json_file_path):
     count = 0
-    DEVICE_CLASS_LIST=DEVICE_CLASS.split(',')
-    UNIT_OF_MEASUREMENT_LIST=UNIT_OF_MEASUREMENT.split(',')
-    NAMES_LIST=NAMES.split(',')
-    COLUMNS_LIST=COLUMNS.split(',')
+    sensors = load_sensors_from_json(json_file_path)
+    if not sensors:
+        print("No sensor data available.")
+        return
 
     logger = logging.getLogger(__name__)
-    logger.info(f"Initialization starting...")
+    logger.info("Initialization starting...")
     print("Initialization starting...")
-    logger.info(f"Lengths DEVICE_CLASS={len(DEVICE_CLASS_LIST)} NAMES={len(NAMES_LIST)} COLUMNS={len(COLUMNS_LIST)} UNITS_OF_MEASUREMENT={len(UNIT_OF_MEASUREMENT_LIST)}")
-    print(f"Lengths DEVICE_CLASS={len(DEVICE_CLASS_LIST)} NAMES={len(NAMES_LIST)} COLUMNS={len(COLUMNS_LIST)} UNITS_OF_MEASUREMENT={len(UNIT_OF_MEASUREMENT_LIST)}")
+    logger.info(f"Total sensors: {len(sensors)}")
+    print(f"Total sensors: {len(sensors)}")
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-
     client.username_pw_set(CONST_MQTT_USERNAME,CONST_MQTT_PASSWORD)
 
     try:
-      client.connect(CONST_MQTT_HOST, 1883)
+        client.connect(CONST_MQTT_HOST, 1883)
     except Exception as e:
-        print("Error connecting to MQTT Broker: " + str(e))
+        print(f"Error connecting to MQTT Broker: {e}")
+        return
 
     client.loop_start()
 
-    for sensor in NAMES_LIST:
-        google_sheets_sensor=GoogleSheetsLastRowSensor(sensor,DEVICE_CLASS_LIST[count],UNIT_OF_MEASUREMENT_LIST[count])
+    for sensor in sensors:
+        sensor_name = sensor["SensorName"]
+        device_class = sensor["DeviceClass"]
+        unit_of_measurement = sensor["UnitOfMeasurement"]
+        google_sheets_sensor = GoogleSheetsLastRowSensor(sensor_name, device_class, unit_of_measurement)
         # Convert dictionary to JSON string
         serialized_message = json.dumps(google_sheets_sensor.to_json())
         print(f"Sending sensor -> {serialized_message}")
         logger.info(f"Sending sensor -> {serialized_message}")
-        print(f"entity: homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config")
+        topic = f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor_name.lower()}/config"
+        print(f"entity: {topic}")
     
         try:
-            ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{sensor.lower()}/config", payload=serialized_message, qos=2, retain=True)
+            ret = client.publish(topic, payload=serialized_message, qos=2, retain=True)
             ret.wait_for_publish()
-            if ret.rc == mqtt.MQTT_ERR_SUCCESS:
-                pass
-            else:
-                print("Failed to queue message with error code " + str(ret))
+            if ret.rc != mqtt.MQTT_ERR_SUCCESS:
+                print(f"Failed to queue message with error code {ret.rc}")
         except Exception as e:
-            print("Error publishing message: " + str(e))
+            print(f"Error publishing message: {e}")
         count = count + 1
         
     client.loop_start()
@@ -104,21 +111,16 @@ def initialize():
     print("Initialization complete...")
 
 def get_spreadsheet_values(column_name):
-    range_name = column_name
-    url = f"https://sheets.googleapis.com/v4/spreadsheets/{CONST_GOOGLE_SPREADSHEET_ID}/values/{range_name}?alt=json&key={CONST_GOOGLE_API_KEY}"
+
+    url = f"https://sheets.googleapis.com/v4/spreadsheets/{CONST_GOOGLE_SPREADSHEET_ID}/values/{column_name}?alt=json&key={CONST_GOOGLE_API_KEY}"
 
     try:
         response = requests.get(url)
         response.raise_for_status()  # Raise an exception for HTTP errors
         values = response.json().get('values', [])
 
-        if not values:
-            print('No data found.')
-            return 'No data found.'
-        else:
-            last_row = len(values)
-           # print(f"{last_row}, {values[-1]}")
-            return values[-1]
+        return values[-1] if values else 'No data found.'
+    
     except requests.exceptions.HTTPError as err:
         print(err)
         return None
@@ -128,20 +130,11 @@ if __name__ == '__main__':
     logger = logging.getLogger(__name__)
     logger.info(f"I am google_sheets_last_row_fetcher running version {VERSION}")
     print(f"I am google_sheets_last_row_fetcher running version {VERSION}")
-    initialize()
-    COLUMNS_LIST=COLUMNS.split(',')
-    DEVICE_CLASS_LIST=DEVICE_CLASS.split(',')
-    UNIT_OF_MEASUREMENT_LIST=UNIT_OF_MEASUREMENT.split(',')
-    NAMES_LIST=NAMES.split(',')
+    json_file_path = "./sensors.json"
+    initialize(json_file_path)
+
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.username_pw_set(CONST_MQTT_USERNAME,CONST_MQTT_PASSWORD)
-
-
-    try:
-        client.connect(CONST_MQTT_HOST, 1883)
-    except Exception as e:
-        print("Error connecting to MQTT Broker: " + str(e))   
-
 
     while True:
         try:
@@ -152,24 +145,27 @@ if __name__ == '__main__':
         client.loop_start()
 
         count = 0
-        for sensor in NAMES_LIST:
-            name_replace=replace_periods(sensor)
-            value = get_spreadsheet_values(COLUMNS_LIST[count])
+        sensors = load_sensors_from_json(json_file_path)
+
+        for sensor in sensors:
+
+            name_replace = replace_periods(sensor["SensorName"])
+            value = get_spreadsheet_values(sensor["SensorColumn"])
+            device_class = sensor["DeviceClass"]
+            unit_of_measurement = sensor["UnitOfMeasurement"]
             
             if value == None:
                 print(f"No sensor value found for {sensor}, so skipping")
                 count = count + 1
                 continue
             else:
-                print(f"{sensor} -> {value[0]} {DEVICE_CLASS_LIST[count]} {UNIT_OF_MEASUREMENT_LIST[count]}")
+                print(f"{sensor} -> {value[0]} {device_class} {unit_of_measurement}")
 
                 try:
                     ret = client.publish(f"homeassistant/sensor/googlesheetslastrowfetcher_{name_replace.lower()}/state", payload=value[0], qos=2, retain=False) 
                     ret.wait_for_publish()
-                    if ret.rc == mqtt.MQTT_ERR_SUCCESS:
-                        pass
-                    else:
-                        print("Failed to queue message with error code " + str(ret))
+                    if ret.rc != mqtt.MQTT_ERR_SUCCESS:
+                        print(f"Failed to queue message with error code {ret.rc}")
                 except Exception as e:
                     print("Error publishing message: " + str(e))
 

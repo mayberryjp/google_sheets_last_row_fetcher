@@ -1,0 +1,183 @@
+[
+ 
+    { 
+        "SensorName": "HouseGridReturnGeneration",
+        "SensorColumn": "Bill%20history!B2:B",
+        "DeviceClass": "energy",
+        "UnitOfMeasurement": "kWh"
+    },
+    { 
+        "SensorName": "HouseGridReturnIncome",
+        "SensorColumn": "Bill%20history!C2:C",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "OfficeWaterCost",
+        "SensorColumn": "Bill%20history!D2:D",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "DocomoCellPhone",
+        "SensorColumn": "Bill%20history!E2:E",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HouseNTTFiberCost",
+        "SensorColumn": "Bill%20history!F2:F",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "OfficeWaterUsage",
+        "SensorColumn": "Bill%20history!G2:G",
+        "DeviceClass": "water",
+        "UnitOfMeasurement": "m³"
+    },
+    { 
+        "SensorName": "HouseGasCost",
+        "SensorColumn": "Bill%20history!H2:H",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HouseGasUsage",
+        "SensorColumn": "Bill%20history!I2:I",
+        "DeviceClass": "gas",
+        "UnitOfMeasurement": "m³"
+    },
+    { 
+        "SensorName": "HouseWaterCost",
+        "SensorColumn": "Bill%20history!J2:J",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HouseWaterUsage",
+        "SensorColumn": "Bill%20history!K2:K",
+        "DeviceClass": "water",
+        "UnitOfMeasurement": "m³"
+    },
+    { 
+        "SensorName": "HouseElectricCost",
+        "SensorColumn": "Bill%20history!L2:L",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HouseElectricUsage",
+        "SensorColumn": "Bill%20history!M2:M",
+        "DeviceClass": "energy",
+        "UnitOfMeasurement": "kWh"
+    },
+    { 
+        "SensorName": "ToyotaGasCost",
+        "SensorColumn": "Bill%20history!N2:N",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "ToyotaMileage",
+        "SensorColumn": "Bill%20history!O2:O",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HouseSewerMaintenance",
+        "SensorColumn": "Bill%20history!P2:P",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HouseBuildingAndLandTax",
+        "SensorColumn": "Bill%20history!Q2:Q",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "PersonalIncomeTax",
+        "SensorColumn": "Bill%20history!R2:R",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "BBExciteInternetFee",
+        "SensorColumn": "Bill%20history!S2:S",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HiaceCarInspectionCost",
+        "SensorColumn": "Bill%20history!T2:T",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "FarmLandTax",
+        "SensorColumn": "Bill%20history!U2:U",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "FarmElectricCost",
+        "SensorColumn": "Bill%20history!V2:V",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "FarmElectricUsage",
+        "SensorColumn": "Bill%20history!W2:W",
+        "DeviceClass": "energy",
+        "UnitOfMeasurement": "kWh"
+    },
+    { 
+        "SensorName": "KeiTruckCarInsuranceCost",
+        "SensorColumn": "Bill%20history!X2:X",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HiaceCarInsuranceCost",
+        "SensorColumn": "Bill%20history!Y2:Y",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "KeiTruckInspectionCost",
+        "SensorColumn": "Bill%20history!Z2:Z",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "OfficeHomeInsurance",
+        "SensorColumn": "Bill%20history!AA2:AA",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "HouseHomeInsurance",
+        "SensorColumn": "Bill%20history!AB2:AB",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "OfficeElectricUsage",
+        "SensorColumn": "Bill%20history!AC2:AC",
+        "DeviceClass": "energy",
+        "UnitOfMeasurement": "kWh"
+    },
+    { 
+        "SensorName": "OfficeElectricCost",
+        "SensorColumn": "Bill%20history!AD2:AD",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    },
+    { 
+        "SensorName": "OfficeBuildingAndLandTax",
+        "SensorColumn": "Bill%20history!AE2:AE",
+        "DeviceClass": "monetary",
+        "UnitOfMeasurement": "JPY"
+    }
+]
